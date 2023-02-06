@@ -15,43 +15,57 @@ namespace WeatherApp.Methods
         {
             string pathName = path + "tempdata.txt";
            
-            Console.Write("Enter the year: ");
-            string year = Console.ReadLine();
-            Console.Write("Enter the month: ");
-            string month = Console.ReadLine();
-            Console.WriteLine("Enter the date: ");
-            string date = Console.ReadLine();
+            //Console.Write("Enter the year: ");
+            //string year = Console.ReadLine();
+            //Console.Write("Enter the month: ");
+            //string month = Console.ReadLine();
+            //Console.WriteLine("Enter the date: ");
+            //string date = Console.ReadLine();
 
-            Regex firstChain = new Regex(@$"^{year}.{month}.{date}.*Ute.*$");
-
+            //Regex firstChain = new Regex(@$"^{year}.{month}.{date}.*Ute.*$");
+            Regex secondChain = new Regex(@"");
+            List<WeatherDateData> data = new List<WeatherDateData>();
             using (StreamReader reader = new StreamReader(pathName))
             {
+
             Regex outsideChain = new Regex(@".*Inne.*$");
                 string fileContent = reader.ReadLine();
                 while (fileContent != null)
                 {
-                    MatchCollection match =firstChain.Matches(fileContent);
+                    string[]arr=fileContent.Split(',');
+                    arr[2].Replace('.', ',');
+                    WeatherDateData a = new WeatherDateData()
+                    {
+                        Date = Convert.ToDateTime(arr[0]),
+                        Environment = arr[1],
+                        Temprature = Convert.ToDouble(arr[2]),
+                        Air_Humidity= Convert.ToDouble(arr[3])
+                       
+                    };
+                    data.Add(a);
+
+                    //MatchCollection match =firstChain.Matches(fileContent);
                     
                     fileContent = reader.ReadLine();
-                    foreach (var m in match)
-                    {
-                        Console.WriteLine(m);
-                    }
+                    //foreach (var m in match)
+                    //{
+                    //    Console.WriteLine(m);
+                    //}
                 }
 
                 //foreach(var b in reader)
                 //{
                 //    Console.WriteLine(reader);
                 //}
-                MatchCollection matches = firstChain.Matches(pathName);
-                if (matches.Count != 0)
-                {
-                    foreach (var a in matches)
-                    {
-                        Console.WriteLine(a);
-                    }
+                //MatchCollection matches = firstChain.Matches(pathName);
+                //if (matches.Count != 0)
+                //{
+                //    foreach (var a in matches)
+                //    {
+                //        Console.WriteLine(a);
+                //    }
 
-                }
+                //}
             }
 
         }
