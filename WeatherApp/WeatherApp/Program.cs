@@ -1,13 +1,15 @@
-﻿namespace WeatherApp
+﻿using System.Text.RegularExpressions;
+using WeatherApp.Methods;
+
+namespace WeatherApp
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
-            Console.WriteLine("Hello!");
-            Console.WriteLine("HelloED!");
-            //
+            Functions.GetDates();
+
+
         }
     }
 }

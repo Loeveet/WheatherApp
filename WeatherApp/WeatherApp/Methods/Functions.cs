@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace WeatherApp.Methods
+{
+    public class Functions
+    {
+        public static string path = "../../../Files/";
+        public static void GetDates()
+        {
+            string pathName = path + "tempdata.txt";
+           
+            Console.Write("Enter the year: ");
+            string year = Console.ReadLine();
+            Console.Write("Enter the month: ");
+            string month = Console.ReadLine();
+            Console.WriteLine("Enter the date: ");
+            string date = Console.ReadLine();
+
+            Regex firstChain = new Regex(@$"^{year}.{month}.{date}.*Ute.*$");
+
+            using (StreamReader reader = new StreamReader(pathName))
+            {
+            Regex outsideChain = new Regex(@".*Inne.*$");
+                string fileContent = reader.ReadLine();
+                while (fileContent != null)
+                {
+                    MatchCollection match =firstChain.Matches(fileContent);
+                    
+                    fileContent = reader.ReadLine();
+                    foreach (var m in match)
+                    {
+                        Console.WriteLine(m);
+                    }
+                }
+
+                //foreach(var b in reader)
+                //{
+                //    Console.WriteLine(reader);
+                //}
+                MatchCollection matches = firstChain.Matches(pathName);
+                if (matches.Count != 0)
+                {
+                    foreach (var a in matches)
+                    {
+                        Console.WriteLine(a);
+                    }
+
+                }
+            }
+
+        }
+        public static int TryNumber(int number, int maxValue, int minValue)               
+        {
+            bool correctInput = false;
+            while (!correctInput)
+            {
+                if (!int.TryParse(Console.ReadLine(), out number) || number > maxValue || number < minValue)
+                {
+                    Console.Write("Wrong input, try again: ");
+                }
+                else
+                {
+                    correctInput = true;
+                }
+            }
+            return number;
+        }
+    }
+}
