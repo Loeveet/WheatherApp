@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -32,7 +33,7 @@ namespace WeatherApp.Methods
                         int year = int.Parse(checkDate.Match(arr[0]).Groups["year"].Value);
                         int month = int.Parse(checkDate.Match(arr[0]).Groups["month"].Value);
                         int day = int.Parse(checkDate.Match(arr[0]).Groups["day"].Value);
-                        if (hour < 24 && (year == 2016 || year == 2017) && month < 13 && day < 32)
+                        if (hour < 24 && (year == 2016 || year == 2017) && month > 5 && month < 13 && day < 32)
                         {
                             WeatherDateData a = new WeatherDateData()
                             {
@@ -134,6 +135,27 @@ namespace WeatherApp.Methods
             foreach (var a in result2)
             {
                 Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.Air_Humidity), 2));
+
+            }
+
+        }
+        public static void CreateAverageTempForEachMonth(List<WeatherDateData> templist, string enviorment)
+        {
+            List<WeatherDateData> dayList = new List<WeatherDateData>();
+
+            var result = templist
+                .Where(x => x.Environment == enviorment)
+                .GroupBy(x => x.Date.Month);
+            
+            var result2 = result
+                .OrderByDescending(x => x.Average(x => x.Temprature));
+            string[] months = new string [] { "January" ,
+            "February","March","April","May","June","July","August","September","October","November","December"};
+            Console.WriteLine("Month".PadRight(20)+"Temp");
+            Console.WriteLine("-------------------------");
+            foreach (var a in result2)
+            {
+                Console.WriteLine(months[a.Key-1].PadRight(20) + "" + Math.Round(a.Average(x => x.Temprature), 2));
 
             }
 

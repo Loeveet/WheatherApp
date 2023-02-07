@@ -17,9 +17,12 @@ namespace WeatherApp
             //Console.WriteLine("------------");
             //Functions.CreateAverageTempForEachDay(tempList, "Inne");
 
-            Functions.CreateAverageHuminityForEachDay(tempList, "Ute");
-            Console.WriteLine("----");
-            Functions.CreateAverageHuminityForEachDay(tempList, "Inne");
+            //Functions.CreateAverageHuminityForEachDay(tempList, "Ute");
+            //Console.WriteLine("----");
+            //Functions.CreateAverageHuminityForEachDay(tempList, "Inne");
+
+            //Functions.CreateAverageTempForEachMonth(tempList, "Ute");
+            //Functions.CreateAverageTempForEachMonth(tempList, "Inne");
 
 
         }
