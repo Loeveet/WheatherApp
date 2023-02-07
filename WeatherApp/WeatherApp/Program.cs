@@ -12,8 +12,8 @@ namespace WeatherApp
 
             var fallList = Functions.GetListForFall();
 
-            Functions.CreateListForWhenFallOccurs(fallList, "Ute");
-         
+            //Functions.CreateListForMeteorlogicalSeason(fallList, "Ute",1);
+
 
             //var choosenDay = Functions.SelectDate();
 
@@ -29,6 +29,9 @@ namespace WeatherApp
 
             //Functions.CreateAverageTempForEachMonth(tempList, "Ute");
             //Functions.CreateAverageTempForEachMonth(tempList, "Inne");
+
+            Functions.CreateListAverageHuminityForEachMonth(tempList, "Ute");
+            Functions.CreateListAverageHuminityForEachMonth(tempList, "Inne");
 
 
         }

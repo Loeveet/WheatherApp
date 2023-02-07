@@ -202,10 +202,10 @@ namespace WeatherApp.Methods
             return newData;
         }
 
-       
-        public static void CreateListForWhenFallOccurs(List<WeatherDateData> templist, string enviorment)
+
+        public static void CreateListForMeteorlogicalSeason(List<WeatherDateData> templist, string enviorment, int temp)
         {
-           var dayList = new List<IGrouping<DateTime,WeatherDateData>>();
+            var dayList = new List<IGrouping<DateTime, WeatherDateData>>();
 
             var result = templist
                 .Where(x => x.Environment == enviorment)
@@ -214,7 +214,7 @@ namespace WeatherApp.Methods
 
             for (int i = 0; i < result.Count; i++)
             {
-                if (result[i].Average(x=>x.Temprature) < 10)
+                if (result[i].Average(x => x.Temprature) < temp)
                 {
                     fallCount++;
                     dayList.Add(result[i]);
@@ -229,10 +229,43 @@ namespace WeatherApp.Methods
                     dayList.Clear();
                 }
             }
-   
-            foreach (var a in dayList)
+
+            if (dayList.Count > 0)
             {
-                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd")+"\t"+Math.Round(a.Average(x=>x.Temprature),2).ToString().PadRight(5)+"°C");
+                Console.WriteLine("Date".PadRight(17) + "Temp");
+                Console.WriteLine("------------------------");
+                for (int i = 0; i < dayList.Count; i++)
+                {
+                    Console.WriteLine(dayList[0].Key.Date.ToString("yyyy-MM-dd") + "\t"
+                        + Math.Round(dayList[0].Average(x => x.Temprature), 1).ToString().PadRight(5) + "°C");
+                    Console.WriteLine((temp>9 ?"Fall":"Winter")+" has begun.");
+                    break;
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("No valid data was found try with another temp input.");
+            }
+
+        }
+        public static void CreateListAverageHuminityForEachMonth(List<WeatherDateData> templist, string enviorment)
+        {
+            List<WeatherDateData> dayList = new List<WeatherDateData>();
+
+            var result = templist
+                .Where(x => x.Environment == enviorment)
+                .GroupBy(x => x.Date.Month);
+
+            var result2 = result
+                .OrderByDescending(x => x.Average(x => x.Temprature));
+            string[] months = new string[] { "January" ,
+            "February","March","April","May","June","July","August","September","October","November","December"};
+            Console.WriteLine("Month".PadRight(20) + "Air Humidity");
+            Console.WriteLine("--------------------------------");
+            foreach (var a in result2)
+            {
+                Console.WriteLine(months[a.Key - 1].PadRight(23) + "" + Math.Round(a.Average(x => x.Air_Humidity), 2));
 
             }
 
