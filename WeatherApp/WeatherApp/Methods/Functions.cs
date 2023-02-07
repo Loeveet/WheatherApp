@@ -120,5 +120,23 @@ namespace WeatherApp.Methods
                 }
             
         }
+        public static void CreateAverageHuminityForEachDay(List<WeatherDateData> templist, string enviorment)
+        {
+            List<WeatherDateData> dayList = new List<WeatherDateData>();
+
+            var result = templist
+                .Where(x => x.Environment == enviorment)
+                .GroupBy(x => x.Date.Date);
+
+            var result2 = result
+                .OrderByDescending(x => x.Average(x => x.Air_Humidity));
+
+            foreach (var a in result2)
+            {
+                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.Air_Humidity), 2));
+
+            }
+
+        }
     }
 }

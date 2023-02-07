@@ -13,9 +13,13 @@ namespace WeatherApp
 
             //Functions.ShowAverageTemp(tempList, choosenDay, "Inne");
             //Functions.ShowAverageTemp(tempList, choosenDay, "Ute");
-            Functions.CreateAverageTempForEachDay(tempList,"Ute");
-            Console.WriteLine("------------");
-            Functions.CreateAverageTempForEachDay(tempList, "Inne");
+            //Functions.CreateAverageTempForEachDay(tempList,"Ute");
+            //Console.WriteLine("------------");
+            //Functions.CreateAverageTempForEachDay(tempList, "Inne");
+
+            Functions.CreateAverageHuminityForEachDay(tempList, "Ute");
+            Console.WriteLine("----");
+            Functions.CreateAverageHuminityForEachDay(tempList, "Inne");
 
 
         }
