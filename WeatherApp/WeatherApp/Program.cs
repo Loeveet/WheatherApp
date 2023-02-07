@@ -12,7 +12,7 @@ namespace WeatherApp
 
             var fallList = Functions.GetListForFall();
 
-            Functions.CreateAverageTempForEachDaySortedByDate(fallList, "Ute");
+            Functions.CreateListForWhenFallOccurs(fallList, "Ute");
          
 
             //var choosenDay = Functions.SelectDate();

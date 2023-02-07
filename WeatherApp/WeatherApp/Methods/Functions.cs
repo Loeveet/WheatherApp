@@ -202,8 +202,8 @@ namespace WeatherApp.Methods
             return newData;
         }
 
-        //Delete lather?
-        public static void CreateAverageTempForEachDaySortedByDate(List<WeatherDateData> templist, string enviorment)
+       
+        public static void CreateListForWhenFallOccurs(List<WeatherDateData> templist, string enviorment)
         {
            var dayList = new List<IGrouping<DateTime,WeatherDateData>>();
 
@@ -232,7 +232,7 @@ namespace WeatherApp.Methods
    
             foreach (var a in dayList)
             {
-                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd")+"\t"+Math.Round(a.Average(x=>x.Temprature),2));
+                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd")+"\t"+Math.Round(a.Average(x=>x.Temprature),2).ToString().PadRight(5)+"°C");
 
             }
 
