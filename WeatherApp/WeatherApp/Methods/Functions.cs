@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -100,6 +101,24 @@ namespace WeatherApp.Methods
                 .Average(x => x.Temprature);
 
             Console.WriteLine(Math.Round(averageTemp, 2));
+        }
+        public static void CreateAverageTempForEachDay(List<WeatherDateData>templist,string enviorment)
+        {
+            List<WeatherDateData> dayList = new List<WeatherDateData>();
+
+            var result = templist
+                .Where(x => x.Environment == enviorment)
+                .GroupBy(x => x.Date.Date);
+
+            var result2 = result
+                .OrderByDescending(x => x.Average(x => x.Temprature));
+                                  
+                foreach(var a in result2)
+                {
+                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") +"\t"+ Math.Round(a.Average(x => x.Temprature),2));
+                
+                }
+            
         }
     }
 }

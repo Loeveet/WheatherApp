@@ -9,11 +9,13 @@ namespace WeatherApp
         static void Main(string[] args)
         {
             var tempList = Functions.GetCorrectDataList();
-            var choosenDay = Functions.SelectDate();
+            //var choosenDay = Functions.SelectDate();
 
-            Functions.ShowAverageTemp(tempList, choosenDay, "Inne");
-            Functions.ShowAverageTemp(tempList, choosenDay, "Ute");
-
+            //Functions.ShowAverageTemp(tempList, choosenDay, "Inne");
+            //Functions.ShowAverageTemp(tempList, choosenDay, "Ute");
+            Functions.CreateAverageTempForEachDay(tempList,"Ute");
+            Console.WriteLine("------------");
+            Functions.CreateAverageTempForEachDay(tempList, "Inne");
 
 
         }
