@@ -9,6 +9,12 @@ namespace WeatherApp
         static void Main(string[] args)
         {
             var tempList = Functions.GetCorrectDataList();
+
+            var fallList = Functions.GetListForFall();
+
+            Functions.CreateAverageTempForEachDaySortedByDate(fallList, "Ute");
+         
+
             //var choosenDay = Functions.SelectDate();
 
             //Functions.ShowAverageTemp(tempList, choosenDay, "Inne");
