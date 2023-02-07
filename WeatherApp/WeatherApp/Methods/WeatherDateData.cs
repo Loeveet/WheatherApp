@@ -9,7 +9,6 @@ namespace WeatherApp.Methods
     public class WeatherDateData
     {
         public DateTime Date { get; set; }
-        //public TimeOnly Time { get; set; }
         public string Environment { get; set; }
         public double Temprature { get; set; }
         public double Air_Humidity { get; set; }

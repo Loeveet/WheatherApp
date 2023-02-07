@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using WeatherApp.Methods;
 
 namespace WeatherApp
@@ -7,7 +8,12 @@ namespace WeatherApp
     {
         static void Main(string[] args)
         {
-            Functions.GetDates();
+            var tempList = Functions.GetCorrectDataList();
+            var choosenDay = Functions.SelectDate();
+
+            Functions.ShowAverageTemp(tempList, choosenDay, "Inne");
+            Functions.ShowAverageTemp(tempList, choosenDay, "Ute");
+
 
 
         }
