@@ -7,17 +7,20 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using WeatherApp.Methods;
+using WeatherApp.WeatherDateData;
+
 
 namespace WeatherApp.Methods
 {
     public class Functions
     {
         public static string path = "../../../Files/";
-        public static List<WeatherDateData> GetCorrectDataList()
+        public static List<WeatherDateData.WeatherDateData> GetCorrectDataList()
         {
             string pathName = path + "tempdata.txt";
 
-            List<WeatherDateData> data = new List<WeatherDateData>();
+            List<WeatherDateData.WeatherDateData> data = new List<WeatherDateData.WeatherDateData>();
             using (StreamReader reader = new StreamReader(pathName))
             {
                 Regex checkTime = new Regex(@"(?<hour>[0-2][0-9]):([0-5][0-9]):([0-5][0-9])$");
@@ -35,7 +38,7 @@ namespace WeatherApp.Methods
                         int day = int.Parse(checkDate.Match(arr[0]).Groups["day"].Value);
                         if (hour < 24 && (year == 2016 || year == 2017) && month > 5 && month < 13 && day < 32)
                         {
-                            WeatherDateData a = new WeatherDateData()
+                            WeatherDateData.WeatherDateData a = new WeatherDateData.WeatherDateData()
                             {
                                 Date = Convert.ToDateTime(arr[0]),
                                 Environment = arr[1].Trim(),
@@ -72,40 +75,59 @@ namespace WeatherApp.Methods
         }
         public static DateTime SelectDate()
         {
-            Regex regex = new Regex("^(?<year>201[6-7])\\-(?<month>[0-1][0-9])-(?<day>[0-3][0-9])");
+            Regex regex = new Regex("^(?<year>[0-9]{4})\\-(?<month>[0-9]{2})-(?<day>[0-9]{2})");
             bool correctInput = false;
             string chooseDay = "";
             while (correctInput == false)
             {
-                Console.Write("Enter date of which day you want look at: ");
+                Console.Write("Enter date of which day you want look at between 2016-06-01 to 2016-12-31: ");
                 chooseDay = Console.ReadLine();
                 MatchCollection matches = regex.Matches(chooseDay);
-                int year = int.Parse(regex.Match(chooseDay).Groups["year"].Value);
-                int month = int.Parse(regex.Match(chooseDay).Groups["month"].Value);
-                int day = int.Parse(regex.Match(chooseDay).Groups["day"].Value);
-                if (matches.Count > 0 && (year == 2016 || year == 2017) && month < 13 && day < 32)
+                try
                 {
-                    correctInput = true;
+                    int year = int.Parse(regex.Match(chooseDay).Groups["year"].Value);
+                    int month = int.Parse(regex.Match(chooseDay).Groups["month"].Value);
+                    int day = int.Parse(regex.Match(chooseDay).Groups["day"].Value);
+                    if (matches.Count > 0 && year == 2016 && month > 5 && month < 13 && day < 32)
+                    {
+                        correctInput = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Incorrect date");
+                    }
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Wrong input. Use format yyyy-MM-dd");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Wrong input. Use format yyyy-MM-dd");
+                }
 
-                }
-                else
-                {
-                    Console.WriteLine("Wrong input.");
-                }
             }
             return Convert.ToDateTime(chooseDay);
         }
-        public static void ShowAverageTemp(List<WeatherDateData> tempList, DateTime choosenDay, string environment)
+        public static void ShowAverageTemp(List<WeatherDateData.WeatherDateData> tempList, DateTime choosenDay, string environment)
         {
-            var averageTemp = tempList
-                .Where(x => x.Date.Date == choosenDay && x.Environment == environment)
-                .Average(x => x.Temprature);
+            try
+            {
+                var averageTemp = tempList
+                    .Where(x => x.Date.Date == choosenDay && x.Environment == environment)
+                    .Average(x => x.Temprature);
 
-            Console.WriteLine(Math.Round(averageTemp, 2));
+                Console.WriteLine(Math.Round(averageTemp, 2));
+            }
+            catch
+            {
+                Console.WriteLine("The choosen day didn't contain any data");
+                Console.ReadKey();
+            }
         }
-        public static void CreateAverageTempForEachDay(List<WeatherDateData> templist, string enviorment)
+        public static void CreateAverageTempForEachDay(List<WeatherDateData.WeatherDateData> templist, string enviorment)
         {
-            List<WeatherDateData> dayList = new List<WeatherDateData>();
+            List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
             var result = templist
                 .Where(x => x.Environment == enviorment)
@@ -121,9 +143,9 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void CreateAverageHuminityForEachDay(List<WeatherDateData> templist, string enviorment)
+        public static void CreateAverageHuminityForEachDay(List<WeatherDateData.WeatherDateData> templist, string enviorment)
         {
-            List<WeatherDateData> dayList = new List<WeatherDateData>();
+            List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
             var result = templist
                 .Where(x => x.Environment == enviorment)
@@ -139,9 +161,9 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void CreateAverageTempForEachMonth(List<WeatherDateData> templist, string enviorment)
+        public static void CreateAverageTempForEachMonth(List<WeatherDateData.WeatherDateData> templist, string enviorment)
         {
-            List<WeatherDateData> dayList = new List<WeatherDateData>();
+            List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
             var result = templist
                 .Where(x => x.Environment == enviorment)
@@ -160,11 +182,11 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static List<WeatherDateData> GetListForFall()
+        public static List<WeatherDateData.WeatherDateData> GetListForFall()
         {
             string pathName = path + "tempdata.txt";
 
-            List<WeatherDateData> data = new List<WeatherDateData>();
+            List<WeatherDateData.WeatherDateData> data = new List<WeatherDateData.WeatherDateData>();
             using (StreamReader reader = new StreamReader(pathName))
             {
                 Regex checkTime = new Regex(@"(?<hour>[0-2][0-9]):([0-5][0-9]):([0-5][0-9])$");
@@ -182,7 +204,7 @@ namespace WeatherApp.Methods
                         int day = int.Parse(checkDate.Match(arr[0]).Groups["day"].Value);
                         if (hour < 24 && (year == 2016 || year == 2017) && month > 7 && month < 13 && day < 32)
                         {
-                            WeatherDateData a = new WeatherDateData()
+                            WeatherDateData.WeatherDateData a = new WeatherDateData.WeatherDateData()
                             {
                                 Date = Convert.ToDateTime(arr[0]),
                                 Environment = arr[1].Trim(),
@@ -201,11 +223,9 @@ namespace WeatherApp.Methods
                 .ToList();
             return newData;
         }
-
-
-        public static void CreateListForMeteorlogicalSeason(List<WeatherDateData> templist, string enviorment, int temp)
+        public static void CreateListForMeteorlogicalSeason(List<WeatherDateData.WeatherDateData> templist, string enviorment, int temp)
         {
-            var dayList = new List<IGrouping<DateTime, WeatherDateData>>();
+            var dayList = new List<IGrouping<DateTime, WeatherDateData.WeatherDateData>>();
 
             var result = templist
                 .Where(x => x.Environment == enviorment)
@@ -238,7 +258,7 @@ namespace WeatherApp.Methods
                 {
                     Console.WriteLine(dayList[0].Key.Date.ToString("yyyy-MM-dd") + "\t"
                         + Math.Round(dayList[0].Average(x => x.Temprature), 1).ToString().PadRight(5) + "°C");
-                    Console.WriteLine((temp>9 ?"Fall":"Winter")+" has begun.");
+                    Console.WriteLine((temp > 9 ? "Fall" : "Winter") + " has begun.");
                     break;
                 }
 
@@ -249,9 +269,9 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void CreateListAverageHuminityForEachMonth(List<WeatherDateData> templist, string enviorment)
+        public static void CreateListAverageHuminityForEachMonth(List<WeatherDateData.WeatherDateData> templist, string enviorment)
         {
-            List<WeatherDateData> dayList = new List<WeatherDateData>();
+            List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
             var result = templist
                 .Where(x => x.Environment == enviorment)

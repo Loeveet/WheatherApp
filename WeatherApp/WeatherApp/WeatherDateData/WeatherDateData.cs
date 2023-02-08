@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeatherApp.Methods
+namespace WeatherApp.WeatherDateData
 {
     public class WeatherDateData
     {
