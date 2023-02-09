@@ -69,7 +69,7 @@ namespace WeatherApp
                         outside.CreateListForMeteorlogicalSeason(fallList, 10, false);
                         break;
                     case MainMenu.Date_For_Metrological_Winter:
-                        outside.CreateListForMeteorlogicalSeason(fallList, 0, false);
+                        outside.CreateListForMeteorlogicalSeason(fallList, 1, false);
                         break;
                     case MainMenu.Create_TextFile_With_Data:
                         Functions.CreateTextFileWithData(tempList, fallList);

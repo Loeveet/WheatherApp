@@ -67,22 +67,6 @@ namespace WeatherApp.Methods
                 .ToList();
             return newData;
         }
-        public static int TryNumber(int number, int maxValue, int minValue)
-        {
-            bool correctInput = false;
-            while (!correctInput)
-            {
-                if (!int.TryParse(Console.ReadLine(), out number) || number > maxValue || number < minValue)
-                {
-                    Console.Write("Wrong input, try again: ");
-                }
-                else
-                {
-                    correctInput = true;
-                }
-            }
-            return number;
-        }
         public static DateTime SelectDate()
         {
             Regex regex = new Regex("^(?<year>[0-9]{4})\\-(?<month>[0-9]{2})-(?<day>[0-9]{2})");
