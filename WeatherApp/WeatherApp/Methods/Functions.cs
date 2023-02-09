@@ -49,7 +49,7 @@ namespace WeatherApp.Methods
                             };
                             if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity > 80)
                             {
-                                a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 100;
+                                a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50;
                             }
                             else
                             {
@@ -127,51 +127,71 @@ namespace WeatherApp.Methods
                     .Where(x => x.Date.Date == choosenDay && x.Environment == environment)
                     .Average(x => x.Temprature);
 
-                Console.WriteLine(Math.Round(averageTemp, 2));
+                Console.WriteLine((environment == "Inne" ? "Inside " : "Outside ") + "temperature: "
+                    + Math.Round(averageTemp, 1) + " °C");
             }
             catch
             {
-                Console.WriteLine("The choosen day didn't contain any data");
-                Console.ReadKey();
+                Console.WriteLine((environment == "Inne" ? "Inside " : "Outside ") + "temperature: "
+                    + "The date contains no data");
             }
         }
-        public static void CreateAverageTempForEachDay(List<WeatherDateData.WeatherDateData> templist, string enviorment)
+        public static void CreateAverageTempForEachDay(List<WeatherDateData.WeatherDateData> templist, string environment)
         {
             List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
             var result = templist
-                .Where(x => x.Environment == enviorment)
+                .Where(x => x.Environment == environment)
                 .GroupBy(x => x.Date.Date);
 
             var result2 = result
                 .OrderByDescending(x => x.Average(x => x.Temprature));
-
+            Console.WriteLine(environment == "Inne" ? "Inside" : "Outside"); 
+            Console.WriteLine("Date\t\tTemperature");
             foreach (var a in result2)
             {
-                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.Temprature), 2));
+                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.Temprature), 1) + " °C");
 
             }
 
         }
-        public static void CreateAverageHuminityForEachDay(List<WeatherDateData.WeatherDateData> templist, string enviorment)
+        public static void CreateAverageHuminityForEachDay(List<WeatherDateData.WeatherDateData> templist, string environment)
         {
             List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
             var result = templist
-                .Where(x => x.Environment == enviorment)
+                .Where(x => x.Environment == environment)
                 .GroupBy(x => x.Date.Date);
 
             var result2 = result
-                .OrderByDescending(x => x.Average(x => x.Air_Humidity));
+                .OrderBy(x => x.Average(x => x.Air_Humidity));
 
-            string[] months = new string[] { "January" ,
-            "February","March","April","May","June","July","August","September","October","November","December"};
-
+            Console.WriteLine(environment == "Inne" ? "Inside" : "Outside");
+            Console.WriteLine("Date\t\tAir Humidity");
             foreach (var a in result2)
             {
-                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.Air_Humidity), 2).ToString() + " ".PadRight(20) + Math.Round(a.Average(x => x.MoldIndex), 1).ToString()
-                    + " ".PadRight(20) + Math.Round(a.Average(x => x.Temprature), 1).ToString());
+                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.Air_Humidity), 1) + " %");
 
+
+            }
+
+        }
+        public static void CreateAverageMoldingForEachDay(List<WeatherDateData.WeatherDateData> templist, string environment)
+        {
+            List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
+
+            var result = templist
+                .Where(x => x.Environment == environment)
+                .GroupBy(x => x.Date.Date);
+
+            var result2 = result
+                .OrderByDescending(x => x.Average(x => x.MoldIndex));
+
+            Console.WriteLine(environment == "Inne" ? "Inside" : "Outside");
+            Console.WriteLine("Date\t\tMoldIndex");
+            foreach (var a in result2)
+            {
+                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.MoldIndex), 1) + " %");
             }
 
         }
@@ -254,7 +274,7 @@ namespace WeatherApp.Methods
                 .ToList();
             return newData;
         }
-        public static void CreateListForMeteorlogicalSeason(List<WeatherDateData.WeatherDateData> templist, string enviorment, int temp)
+        public static void CreateListForMeteorlogicalSeason(List<WeatherDateData.WeatherDateData> templist, string enviorment, int temp, bool save)
         {
             var dayList = new List<IGrouping<DateTime, WeatherDateData.WeatherDateData>>();
 
@@ -292,27 +312,29 @@ namespace WeatherApp.Methods
                     Console.WriteLine((temp > 9 ? "Fall" : "Winter") + " has begun.");
                     break;
                 }
-                using (StreamWriter writer = new StreamWriter(pathToResult, true))
+                if (save == true)
                 {
-                    if (temp == 10)
+                    using (StreamWriter writer = new StreamWriter(pathToResult, true))
                     {
-                        writer.WriteLine("Fall has begun.");
+                        if (temp == 10)
+                        {
+                            writer.WriteLine("Fall has begun.");
 
-                    }
-                    else
-                    {
-                        writer.WriteLine("Winter has begun.");
-                    }
-                    foreach (var a in dayList)
-                    {
-                        writer.WriteLine(dayList[0].Key.Date.ToString("yyyy-MM-dd") + "\t"
-                        + Math.Round(dayList[0].Average(x => x.Temprature), 1).ToString().PadRight(5) + "°C");
+                        }
+                        else
+                        {
+                            writer.WriteLine("Winter has begun.");
+                        }
+                        foreach (var a in dayList)
+                        {
+                            writer.WriteLine(dayList[0].Key.Date.ToString("yyyy-MM-dd") + "\t"
+                            + Math.Round(dayList[0].Average(x => x.Temprature), 1).ToString().PadRight(5) + "°C");
 
-                        break;
+                            break;
 
+                        }
                     }
                 }
-
             }
             else
             {
@@ -402,7 +424,7 @@ namespace WeatherApp.Methods
             {
                 writer.WriteLine("Algorithm for molding");
                 writer.WriteLine("if(a.Temprature >0 && a.Temprature< 50 && a.Air_Humidity> 80){a.MoldIndex = (Convert.ToDecimal");
-                writer.WriteLine("(a.Air_Humidity * a.Temprature)) / 100;} else{a.MoldIndex = 0 }");
+                writer.WriteLine("(a.Air_Humidity * a.Temprature)) / 50;} else{a.MoldIndex = 0 }");
             }
         }
         public static void CreateTextFile()
