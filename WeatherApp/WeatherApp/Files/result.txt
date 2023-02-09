@@ -50,9 +50,6 @@ Winter has begun.
 2016-11-06	-1   °C
 Fall has begun.
 2016-10-04	7,3  °C
-Algorithm for molding
-if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity> 80)
-{ a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50; } 
-else
-{ a.MoldIndex = 0 }
+(Convert.ToDouble(temp) > 0 && Convert.ToDouble(temp) < 50 && Convert.ToDouble(arr[3]) > 80)
+ ? (Convert.ToDecimal(Convert.ToDouble(arr[3]) * Convert.ToDouble(temp))) / 50 : 0
 

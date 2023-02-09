@@ -48,16 +48,17 @@ namespace WeatherApp.Methods
                                 Date = Convert.ToDateTime(arr[0]),
                                 Environment = arr[1].Trim(),
                                 Temprature = Convert.ToDouble(temp),
-                                Air_Humidity = Convert.ToDouble(arr[3])
+                                Air_Humidity = Convert.ToDouble(arr[3]),
+                                MoldIndex = (Convert.ToDouble(temp) > 0 && Convert.ToDouble(temp) < 50 && Convert.ToDouble(arr[3]) > 80) ? (Convert.ToDecimal(Convert.ToDouble(arr[3]) * Convert.ToDouble(temp))) / 50 : 0
                             };
-                            if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity > 80)
-                            {
-                                a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50;
-                            }
-                            else
-                            {
-                                a.MoldIndex = 0;
-                            }
+                            //if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity > 80)
+                            //{
+                            //    a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50;
+                            //}
+                            //else
+                            //{
+                            //    a.MoldIndex = 0;
+                            //}
                             data.Add(a);
                         }
                         fileContent = reader.ReadLine();
@@ -360,19 +361,23 @@ namespace WeatherApp.Methods
         }
         public static void WriteOutMoldingVariableToFile()
         {
-            Console.WriteLine("Algorithm for molding\n" +
-                "if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity> 80)\n" +
-                "{ a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50; } \n" +
-                "else\n" +
-                "{ a.MoldIndex = 0 }\n");
+            //Console.WriteLine("Algorithm for molding\n" +
+            //    "if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity> 80)\n" +
+            //    "{ a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50; } \n" +
+            //    "else\n" +
+            //    "{ a.MoldIndex = 0 }\n");
+            string algorithm = "(Convert.ToDouble(temp) > 0 && Convert.ToDouble(temp) < 50 && Convert.ToDouble(arr[3]) > 80)\n" +
+                " ? (Convert.ToDecimal(Convert.ToDouble(arr[3]) * Convert.ToDouble(temp))) / 50 : 0\n";
+            Console.WriteLine(algorithm);
 
             using (StreamWriter writer = new StreamWriter(pathToResult, true))
             {
-                writer.WriteLine("Algorithm for molding\n" +
-                "if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity> 80)\n" +
-                "{ a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50; } \n" +
-                "else\n" +
-                "{ a.MoldIndex = 0 }\n");
+                //writer.WriteLine("Algorithm for molding\n" +
+                //"if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity> 80)\n" +
+                //"{ a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50; } \n" +
+                //"else\n" +
+                //"{ a.MoldIndex = 0 }\n");
+                writer.WriteLine(algorithm);
             }
         }
         public static void CreateTextFile()
@@ -400,7 +405,7 @@ namespace WeatherApp.Methods
             outside.CreateListForMeteorlogicalSeason(fallList, 10, true);
 
             WriteOutMoldingVariableToFile();
-            fileMessage("File with data was created");
+            fileMessage("File with data was succesfully created");
         }
         public static void PrintFileMessage(string message)
         {
