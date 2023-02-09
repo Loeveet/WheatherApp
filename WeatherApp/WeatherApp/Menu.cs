@@ -51,19 +51,19 @@ namespace WeatherApp
                         inside.ShowAverageTemp(tempList, choosenDay);
                         break;
                     case MainMenu.Average_Temperature_Per_Day:
-                        outside.CreateAverageTempForEachDay(tempList);
+                        outside.CreateAverageForEachDay(tempList, "Temperature");
                         Console.WriteLine();
-                        inside.CreateAverageTempForEachDay(tempList);
+                        inside.CreateAverageForEachDay(tempList, "Temperature");
                         break;
                     case MainMenu.Average_Air_Humidity_Per_Day:
-                        outside.CreateAverageHuminityForEachDay(tempList);
+                        outside.CreateAverageForEachDay(tempList, "Air humidity");
                         Console.WriteLine();
-                        inside.CreateAverageHuminityForEachDay(tempList);
+                        inside.CreateAverageForEachDay(tempList, "Air humidity");
                         break;
                     case MainMenu.Average_Risk_For_Mold_Per_Day:
-                        outside.CreateAverageMoldingForEachDay(tempList);
+                        outside.CreateAverageForEachDay(tempList, "MoldIndex");
                         Console.WriteLine();
-                        inside.CreateAverageMoldingForEachDay(tempList);
+                        inside.CreateAverageForEachDay(tempList, "MoldIndex");
                         break;
                     case MainMenu.Date_For_Metrological_Fall:
                         outside.CreateListForMeteorlogicalSeason(fallList, 10, false);

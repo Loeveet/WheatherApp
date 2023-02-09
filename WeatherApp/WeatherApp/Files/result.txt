@@ -51,5 +51,8 @@ Winter has begun.
 Fall has begun.
 2016-10-04	7,3  °C
 Algorithm for molding
-if(a.Temprature >0 && a.Temprature< 50 && a.Air_Humidity> 80){a.MoldIndex = (Convert.ToDecimal
-(a.Air_Humidity * a.Temprature)) / 50;} else{a.MoldIndex = 0 }
+if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity> 80)
+{ a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50; } 
+else
+{ a.MoldIndex = 0 }
+

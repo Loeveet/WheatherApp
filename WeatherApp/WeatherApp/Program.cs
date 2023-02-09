@@ -10,13 +10,13 @@ namespace WeatherApp
         static void Main(string[] args)
         {
 
-
-            var tempList = Functions.GetCorrectDataList();
-
-            var fallList = Functions.GetListForFall();
-
-
+            var tempList = Functions.GetCorrectDataList(5);
+            var fallList = Functions.GetCorrectDataList(7);
             Menu.FirstMenu(tempList, fallList);
+
+
+
+
 
 
         }
