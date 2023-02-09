@@ -30,14 +30,6 @@ September           41,6
 November            19,07
 October             27,27
 December            15,82
-MoldIndex inside
-June                0
-July                0
-August              0
-September           0
-October             0
-November            0
-December            0
 MoldIndex outside
 June                5,24
 November            3,93
@@ -46,6 +38,14 @@ October             0,60
 September           0,30
 July                0
 August              0
+MoldIndex inside
+June                0
+July                0
+August              0
+September           0
+October             0
+November            0
+December            0
 Winter has begun.
 2016-11-06	-1   °C
 Fall has begun.

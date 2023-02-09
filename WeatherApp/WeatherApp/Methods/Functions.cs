@@ -419,6 +419,8 @@ namespace WeatherApp.Methods
         {
             string outside = "Ute";
             string inside = "Inne";
+            Delegate.FileMessage fileMessage = PrintFileMessage;
+
             CreateTextFile();
 
             outside.CreateAverageTempForEachMonth(tempList);
@@ -434,7 +436,12 @@ namespace WeatherApp.Methods
             outside.CreateListForMeteorlogicalSeason(fallList, 10, true);
 
             WriteOutMoldingVariableToFile();
-            Console.WriteLine("File with data was created");
+            fileMessage("File with data was created");
         }
+        public static void PrintFileMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
+        
     }
 }
