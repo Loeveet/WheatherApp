@@ -12,6 +12,6 @@ namespace WeatherApp.WeatherDateData
         public string Environment { get; set; }
         public double Temprature { get; set; }
         public double Air_Humidity { get; set; }
-        //public double? MoldIndex { get; set; }=null;
+        public decimal MoldIndex { get; set; }
     }
 }

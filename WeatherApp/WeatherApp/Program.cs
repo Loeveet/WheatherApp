@@ -13,12 +13,13 @@ namespace WeatherApp
 
             var fallList = Functions.GetListForFall();
 
-            //Functions.CreateListForMeteorlogicalSeason(fallList, "Ute",1);
+            //Functions.CreateTextFile();
+            //Functions.CreateListForMeteorlogicalSeason(fallList, "Ute", 1);
+            //Functions.CreateListForMeteorlogicalSeason(fallList, "Ute", 10);
 
+            //var choosenDay = Functions.SelectDate();
 
-            var choosenDay = Functions.SelectDate();
-
-            Functions.ShowAverageTemp(tempList, choosenDay, "Inne");
+            //Functions.ShowAverageTemp(tempList, choosenDay, "Inne");
             //Functions.ShowAverageTemp(tempList, choosenDay, "Ute");
             //Functions.CreateAverageTempForEachDay(tempList,"Ute");
             //Console.WriteLine("------------");
@@ -34,6 +35,9 @@ namespace WeatherApp
             //Functions.CreateListAverageHuminityForEachMonth(tempList, "Ute");
             //Functions.CreateListAverageHuminityForEachMonth(tempList, "Inne");
 
+            //Functions.CreateListForMoldingEachMonth(tempList, "Inne");
+            //Functions.CreateListForMoldingEachMonth(tempList, "Ute");
+            //Functions.WriteOutMoldingVariableToFile();
 
         }
     }

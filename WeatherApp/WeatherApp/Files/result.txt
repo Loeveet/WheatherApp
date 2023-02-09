@@ -1,0 +1,55 @@
+Temperature outside
+July                20,24
+August              18,07
+September           16,16
+June                15,85
+October             8,18
+November            3,31
+December            2,51
+Temperature inside
+July                26,28
+August              25,57
+June                24,7
+September           23,31
+November            22,78
+October             22,42
+December            21,84
+Air Humidity outside
+July                52,99
+August              48,6
+September           60,43
+June                53,21
+October             64,58
+November            83,49
+December            77,93
+Air Humidity inside
+July                41,63
+August              34,6
+June                28,76
+September           41,6
+November            19,07
+October             27,27
+December            15,82
+MoldIndex inside
+June                0
+July                0
+August              0
+September           0
+October             0
+November            0
+December            0
+MoldIndex outside
+June                2,62
+November            1,97
+December            1,49
+October             0,30
+September           0,15
+July                0
+August              0
+Winter has begun.
+2016-11-06	-1   °C
+Fall has begun.
+2016-10-04	7,3  °C
+Algorithm for molding
+if(a.Temprature >0 && a.Temprature< 50 && a.Air_Humidity> 80){a.MoldIndex = (Convert.ToDecimal
+(a.Air_Humidity * a.Temprature)) / 100;} else{a.MoldIndex = 0 }

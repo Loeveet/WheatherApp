@@ -16,6 +16,8 @@ namespace WeatherApp.Methods
     public class Functions
     {
         public static string path = "../../../Files/";
+
+        public static string pathToResult = path + "result.txt";
         public static List<WeatherDateData.WeatherDateData> GetCorrectDataList()
         {
             string pathName = path + "tempdata.txt";
@@ -45,6 +47,14 @@ namespace WeatherApp.Methods
                                 Temprature = Convert.ToDouble(temp),
                                 Air_Humidity = Convert.ToDouble(arr[3])
                             };
+                            if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity > 80)
+                            {
+                                a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 100;
+                            }
+                            else
+                            {
+                                a.MoldIndex = 0;
+                            }
                             data.Add(a);
                         }
                         fileContent = reader.ReadLine();
@@ -154,9 +164,13 @@ namespace WeatherApp.Methods
             var result2 = result
                 .OrderByDescending(x => x.Average(x => x.Air_Humidity));
 
+            string[] months = new string[] { "January" ,
+            "February","March","April","May","June","July","August","September","October","November","December"};
+
             foreach (var a in result2)
             {
-                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.Air_Humidity), 2));
+                Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.Air_Humidity), 2).ToString() + " ".PadRight(20) + Math.Round(a.Average(x => x.MoldIndex), 1).ToString()
+                    + " ".PadRight(20) + Math.Round(a.Average(x => x.Temprature), 1).ToString());
 
             }
 
@@ -179,6 +193,23 @@ namespace WeatherApp.Methods
             {
                 Console.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Temprature), 2));
 
+            }
+            using (StreamWriter writer = new StreamWriter(pathToResult, true))
+            {
+                if (enviorment == "Inne")
+                {
+                    writer.WriteLine("Temperature inside");
+
+                }
+                else
+                {
+                    writer.WriteLine("Temperature outside");
+                }
+                foreach (var a in result2)
+                {
+                    writer.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Temprature), 2));
+
+                }
             }
 
         }
@@ -261,6 +292,26 @@ namespace WeatherApp.Methods
                     Console.WriteLine((temp > 9 ? "Fall" : "Winter") + " has begun.");
                     break;
                 }
+                using (StreamWriter writer = new StreamWriter(pathToResult, true))
+                {
+                    if (temp == 10)
+                    {
+                        writer.WriteLine("Fall has begun.");
+
+                    }
+                    else
+                    {
+                        writer.WriteLine("Winter has begun.");
+                    }
+                    foreach (var a in dayList)
+                    {
+                        writer.WriteLine(dayList[0].Key.Date.ToString("yyyy-MM-dd") + "\t"
+                        + Math.Round(dayList[0].Average(x => x.Temprature), 1).ToString().PadRight(5) + "°C");
+
+                        break;
+
+                    }
+                }
 
             }
             else
@@ -288,7 +339,75 @@ namespace WeatherApp.Methods
                 Console.WriteLine(months[a.Key - 1].PadRight(23) + "" + Math.Round(a.Average(x => x.Air_Humidity), 2));
 
             }
+            using (StreamWriter writer = new StreamWriter(pathToResult, true))
+            {
+                if (enviorment == "Inne")
+                {
+                    writer.WriteLine("Air Humidity inside");
 
+                }
+                else
+                {
+                    writer.WriteLine("Air Humidity outside");
+                }
+                foreach (var a in result2)
+                {
+                    writer.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Air_Humidity), 2));
+
+                }
+            }
+
+        }
+        public static void CreateListForMoldingEachMonth(List<WeatherDateData.WeatherDateData> templist, string enviorment)
+        {
+            List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
+
+            var result = templist
+                .Where(x => x.Environment == enviorment)
+                .GroupBy(x => x.Date.Month);
+
+            var result2 = result
+                .OrderByDescending(x => x.Average(x => x.MoldIndex));
+            string[] months = new string[] { "January" ,
+            "February","March","April","May","June","July","August","September","October","November","December"};
+            Console.WriteLine("Month".PadRight(20) + "MoldIndex");
+            Console.WriteLine("--------------------------------");
+            foreach (var a in result2)
+            {
+                Console.WriteLine(months[a.Key - 1].PadRight(23) + "" + Math.Round(a.Average(x => x.MoldIndex), 2));
+
+            }
+            using (StreamWriter writer = new StreamWriter(pathToResult, true))
+            {
+                if (enviorment == "Inne")
+                {
+                    writer.WriteLine("MoldIndex inside");
+
+                }
+                else
+                {
+                    writer.WriteLine("MoldIndex outside");
+                }
+                foreach (var a in result2)
+                {
+                    writer.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.MoldIndex), 2));
+
+                }
+            }
+
+        }
+        public static void WriteOutMoldingVariableToFile()
+        {
+            using (StreamWriter writer = new StreamWriter(pathToResult, true))
+            {
+                writer.WriteLine("Algorithm for molding");
+                writer.WriteLine("if(a.Temprature >0 && a.Temprature< 50 && a.Air_Humidity> 80){a.MoldIndex = (Convert.ToDecimal");
+                writer.WriteLine("(a.Air_Humidity * a.Temprature)) / 100;} else{a.MoldIndex = 0 }");
+            }
+        }
+        public static void CreateTextFile()
+        {
+            File.WriteAllText(path + "result.txt", "");
         }
     }
 }
