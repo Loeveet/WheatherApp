@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherApp.Methods;
+using WeatherApp.WeatherDateData;
 
 namespace WeatherApp
 {
@@ -17,7 +18,8 @@ namespace WeatherApp
             Average_Risk_For_Mold_Per_Day,
             Date_For_Metrological_Fall,
             Date_For_Metrological_Winter,
-            Log_Out = 9
+            Create_TextFile_With_Data,
+            End_Program = 9
 
         }
 
@@ -32,6 +34,8 @@ namespace WeatherApp
                     Console.WriteLine($"{i}. {Enum.GetName(typeof(MainMenu), i).Replace("_", " ")}");
                 }
                 int nr;
+                string inside = "Inne";
+                string outside = "Ute";
                 MainMenu menu = (MainMenu)99; //Default
                 if (int.TryParse(Console.ReadKey(true).KeyChar.ToString(), out nr) || nr > Enum.GetNames(typeof(MainMenu)).Length - 1)
                 {
@@ -42,32 +46,37 @@ namespace WeatherApp
                 {
                     case MainMenu.Average_Temperature_Per_Choosen_Day:
                         var choosenDay = Functions.SelectDate();
-                        Functions.ShowAverageTemp(tempList, choosenDay, "Inne");
-                        Functions.ShowAverageTemp(tempList, choosenDay, "Ute");
+                        outside.ShowAverageTemp(tempList, choosenDay);
+                        Console.WriteLine();
+                        inside.ShowAverageTemp(tempList, choosenDay);
                         break;
                     case MainMenu.Average_Temperature_Per_Day:
-                        Functions.CreateAverageTempForEachDay(tempList, "Ute");
+                        outside.CreateAverageTempForEachDay(tempList);
                         Console.WriteLine();
-                        Functions.CreateAverageTempForEachDay(tempList, "Inne");
+                        inside.CreateAverageTempForEachDay(tempList);
                         break;
                     case MainMenu.Average_Air_Humidity_Per_Day:
-                        Functions.CreateAverageHuminityForEachDay(tempList, "Ute");
+                        outside.CreateAverageHuminityForEachDay(tempList);
                         Console.WriteLine();
-                        Functions.CreateAverageHuminityForEachDay(tempList, "Inne");
+                        inside.CreateAverageHuminityForEachDay(tempList);
                         break;
                     case MainMenu.Average_Risk_For_Mold_Per_Day:
-                        Functions.CreateAverageMoldingForEachDay(tempList, "Ute");
+                        outside.CreateAverageMoldingForEachDay(tempList);
                         Console.WriteLine();
-                        Functions.CreateAverageMoldingForEachDay(tempList, "Inne");
+                        inside.CreateAverageMoldingForEachDay(tempList);
                         break;
                     case MainMenu.Date_For_Metrological_Fall:
-                        Functions.CreateListForMeteorlogicalSeason(fallList, "Ute", 10, false);
+                        outside.CreateListForMeteorlogicalSeason(fallList, 10, false);
                         break;
                     case MainMenu.Date_For_Metrological_Winter:
-                        Functions.CreateListForMeteorlogicalSeason(fallList, "Ute", 1, false);
+                        outside.CreateListForMeteorlogicalSeason(fallList, 0, false);
                         break;
-
-
+                    case MainMenu.Create_TextFile_With_Data:
+                        Functions.CreateTextFileWithData(tempList, fallList);
+                        break;
+                    case MainMenu.End_Program:
+                        menuLoop = false;
+                        break;
                 }
                 Console.ReadKey();
             }

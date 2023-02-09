@@ -13,7 +13,7 @@ using WeatherApp.WeatherDateData;
 
 namespace WeatherApp.Methods
 {
-    public class Functions
+    public static class Functions
     {
         public static string path = "../../../Files/";
 
@@ -119,7 +119,7 @@ namespace WeatherApp.Methods
             }
             return Convert.ToDateTime(chooseDay);
         }
-        public static void ShowAverageTemp(List<WeatherDateData.WeatherDateData> tempList, DateTime choosenDay, string environment)
+        public static void ShowAverageTemp(this string environment, List<WeatherDateData.WeatherDateData> tempList, DateTime choosenDay)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace WeatherApp.Methods
                     + "The date contains no data");
             }
         }
-        public static void CreateAverageTempForEachDay(List<WeatherDateData.WeatherDateData> templist, string environment)
+        public static void CreateAverageTempForEachDay(this string environment, List<WeatherDateData.WeatherDateData> templist)
         {
             List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
@@ -155,7 +155,7 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void CreateAverageHuminityForEachDay(List<WeatherDateData.WeatherDateData> templist, string environment)
+        public static void CreateAverageHuminityForEachDay(this string environment, List<WeatherDateData.WeatherDateData> templist)
         {
             List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
@@ -176,7 +176,7 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void CreateAverageMoldingForEachDay(List<WeatherDateData.WeatherDateData> templist, string environment)
+        public static void CreateAverageMoldingForEachDay(this string environment, List<WeatherDateData.WeatherDateData> templist)
         {
             List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
@@ -195,12 +195,12 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void CreateAverageTempForEachMonth(List<WeatherDateData.WeatherDateData> templist, string enviorment)
+        public static void CreateAverageTempForEachMonth(this string environment, List<WeatherDateData.WeatherDateData> templist)
         {
             List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
             var result = templist
-                .Where(x => x.Environment == enviorment)
+                .Where(x => x.Environment == environment)
                 .GroupBy(x => x.Date.Month);
 
             var result2 = result
@@ -216,7 +216,7 @@ namespace WeatherApp.Methods
             }
             using (StreamWriter writer = new StreamWriter(pathToResult, true))
             {
-                if (enviorment == "Inne")
+                if (environment == "Inne")
                 {
                     writer.WriteLine("Temperature inside");
 
@@ -274,12 +274,12 @@ namespace WeatherApp.Methods
                 .ToList();
             return newData;
         }
-        public static void CreateListForMeteorlogicalSeason(List<WeatherDateData.WeatherDateData> templist, string enviorment, int temp, bool save)
+        public static void CreateListForMeteorlogicalSeason(this string environment, List<WeatherDateData.WeatherDateData> templist, int temp, bool save)
         {
             var dayList = new List<IGrouping<DateTime, WeatherDateData.WeatherDateData>>();
 
             var result = templist
-                .Where(x => x.Environment == enviorment)
+                .Where(x => x.Environment == environment)
                 .GroupBy(x => x.Date.Date).ToList();
             int fallCount = 0;
 
@@ -342,12 +342,12 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void CreateListAverageHuminityForEachMonth(List<WeatherDateData.WeatherDateData> templist, string enviorment)
+        public static void CreateListAverageHuminityForEachMonth(this string environment, List<WeatherDateData.WeatherDateData> templist)
         {
             List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
             var result = templist
-                .Where(x => x.Environment == enviorment)
+                .Where(x => x.Environment == environment)
                 .GroupBy(x => x.Date.Month);
 
             var result2 = result
@@ -363,7 +363,7 @@ namespace WeatherApp.Methods
             }
             using (StreamWriter writer = new StreamWriter(pathToResult, true))
             {
-                if (enviorment == "Inne")
+                if (environment == "Inne")
                 {
                     writer.WriteLine("Air Humidity inside");
 
@@ -380,12 +380,12 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void CreateListForMoldingEachMonth(List<WeatherDateData.WeatherDateData> templist, string enviorment)
+        public static void CreateListForMoldingEachMonth(this string environment, List<WeatherDateData.WeatherDateData> templist)
         {
             List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
             var result = templist
-                .Where(x => x.Environment == enviorment)
+                .Where(x => x.Environment == environment)
                 .GroupBy(x => x.Date.Month);
 
             var result2 = result
@@ -401,7 +401,7 @@ namespace WeatherApp.Methods
             }
             using (StreamWriter writer = new StreamWriter(pathToResult, true))
             {
-                if (enviorment == "Inne")
+                if (environment == "Inne")
                 {
                     writer.WriteLine("MoldIndex inside");
 
@@ -430,6 +430,27 @@ namespace WeatherApp.Methods
         public static void CreateTextFile()
         {
             File.WriteAllText(path + "result.txt", "");
+        }
+        public static void CreateTextFileWithData(List<WeatherDateData.WeatherDateData> tempList, List<WeatherDateData.WeatherDateData> fallList)
+        {
+            string outside = "Ute";
+            string inside = "Inne";
+            CreateTextFile();
+
+            outside.CreateAverageTempForEachMonth(tempList);
+            inside.CreateAverageTempForEachMonth(tempList);
+
+            outside.CreateListAverageHuminityForEachMonth(tempList);
+            inside.CreateListAverageHuminityForEachMonth(tempList);
+
+            outside.CreateListForMoldingEachMonth(tempList);
+            inside.CreateListForMoldingEachMonth(tempList);
+
+            outside.CreateListForMeteorlogicalSeason(fallList, 1, true);
+            outside.CreateListForMeteorlogicalSeason(fallList, 10, true);
+
+            WriteOutMoldingVariableToFile();
+            Console.WriteLine("File with data was created");
         }
     }
 }

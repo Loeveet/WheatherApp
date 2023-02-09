@@ -18,22 +18,6 @@ namespace WeatherApp
 
             Menu.FirstMenu(tempList, fallList);
 
-            //Functions.CreateTextFile();
-
-            //Functions.CreateListForMeteorlogicalSeason(fallList, "Ute", 1, true);
-            //Functions.CreateListForMeteorlogicalSeason(fallList, "Ute", 10, true);
-
-
-            //Functions.CreateAverageTempForEachMonth(tempList, "Ute");
-            //Functions.CreateAverageTempForEachMonth(tempList, "Inne");
-
-            //Functions.CreateListAverageHuminityForEachMonth(tempList, "Ute");
-            //Functions.CreateListAverageHuminityForEachMonth(tempList, "Inne");
-
-            //Functions.CreateListForMoldingEachMonth(tempList, "Inne");
-            //Functions.CreateListForMoldingEachMonth(tempList, "Ute");
-
-            //Functions.WriteOutMoldingVariableToFile();
 
         }
     }
