@@ -250,7 +250,7 @@ namespace WeatherApp.Methods
             Console.WriteLine("--------------------------------");
             foreach (var a in result2)
             {
-                Console.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Temprature), 2));
+                Console.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Temprature), 1).ToString().PadRight(5) + " °C");
 
             }
             Console.WriteLine();
@@ -267,7 +267,7 @@ namespace WeatherApp.Methods
                 }
                 foreach (var a in result2)
                 {
-                    writer.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Temprature), 2));
+                    writer.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Temprature), 1).ToString().PadRight(5)+" °C");
 
                 }
                 Console.WriteLine();
@@ -286,10 +286,10 @@ namespace WeatherApp.Methods
                 .OrderByDescending(x => x.Average(x => x.Temprature));
 
             Console.WriteLine("Month".PadRight(20) + "Air Humidity " + (environment == "Inne" ? "inside" : "outside"));
-            Console.WriteLine("--------------------------------");
+            Console.WriteLine("---------------------------------------");
             foreach (var a in result2)
             {
-                Console.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Air_Humidity), 2));
+                Console.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Air_Humidity), 1).ToString().PadRight(5) + " %");
 
             }
             Console.WriteLine();
@@ -306,7 +306,7 @@ namespace WeatherApp.Methods
                 }
                 foreach (var a in result2)
                 {
-                    writer.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Air_Humidity), 2));
+                    writer.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.Air_Humidity), 1).ToString().PadRight(5) + " %");
 
                 }
                 Console.WriteLine();
@@ -325,10 +325,10 @@ namespace WeatherApp.Methods
                 .OrderByDescending(x => x.Average(x => x.MoldIndex));
 
             Console.WriteLine("Month".PadRight(20) + "MoldIndex " + (environment == "Inne" ? "inside" : "outside"));
-            Console.WriteLine("--------------------------------");
+            Console.WriteLine("-------------------------------------");
             foreach (var a in result2)
             {
-                Console.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.MoldIndex), 2));
+                Console.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.MoldIndex), 1).ToString().PadRight(5) + " %");
 
             }
             Console.WriteLine();
@@ -345,7 +345,7 @@ namespace WeatherApp.Methods
                 }
                 foreach (var a in result2)
                 {
-                    writer.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.MoldIndex), 2));
+                    writer.WriteLine(months[a.Key - 1].PadRight(20) + "" + Math.Round(a.Average(x => x.MoldIndex), 1).ToString().PadRight(5) +" %");
 
                 }
                 Console.WriteLine();
