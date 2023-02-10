@@ -13,12 +13,6 @@ namespace WeatherApp
             var tempList = Functions.GetCorrectDataList(5);
             var fallList = Functions.GetCorrectDataList(7);
             Menu.FirstMenu(tempList, fallList);
-
-
-
-
-
-
         }
     }
 }

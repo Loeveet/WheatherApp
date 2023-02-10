@@ -51,14 +51,7 @@ namespace WeatherApp.Methods
                                 Air_Humidity = Convert.ToDouble(arr[3]),
                                 MoldIndex = (Convert.ToDouble(temp) > 0 && Convert.ToDouble(temp) < 50 && Convert.ToDouble(arr[3]) > 80) ? (Convert.ToDecimal(Convert.ToDouble(arr[3]) * Convert.ToDouble(temp))) / 50 : 0
                             };
-                            //if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity > 80)
-                            //{
-                            //    a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50;
-                            //}
-                            //else
-                            //{
-                            //    a.MoldIndex = 0;
-                            //}
+
                             data.Add(a);
                         }
                         fileContent = reader.ReadLine();
@@ -242,7 +235,7 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void CreateAverageTempForEachMonth(this string environment, List<WeatherDateData.WeatherDateData> templist, string[] months)
+        private static void CreateAverageTempForEachMonth(this string environment, List<WeatherDateData.WeatherDateData> templist, string[] months)
         {
             List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
@@ -281,7 +274,7 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void CreateListAverageHuminityForEachMonth(this string environment, List<WeatherDateData.WeatherDateData> templist, string[] months)
+        private static void CreateListAverageHuminityForEachMonth(this string environment, List<WeatherDateData.WeatherDateData> templist, string[] months)
         {
             List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
 
@@ -359,28 +352,19 @@ namespace WeatherApp.Methods
             }
 
         }
-        public static void WriteOutMoldingVariableToFile()
+        private static void WriteOutMoldingVariableToFile()
         {
-            //Console.WriteLine("Algorithm for molding\n" +
-            //    "if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity> 80)\n" +
-            //    "{ a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50; } \n" +
-            //    "else\n" +
-            //    "{ a.MoldIndex = 0 }\n");
+
             string algorithm = "(Temperature > 0 && Temperature < 50 && AirHumidity > 80)\n" +
                 " ? (Temperature * AirHumidity) / 50 : 0\n";
             Console.WriteLine(algorithm);
 
             using (StreamWriter writer = new StreamWriter(pathToResult, true))
             {
-                //writer.WriteLine("Algorithm for molding\n" +
-                //"if (a.Temprature > 0 && a.Temprature < 50 && a.Air_Humidity> 80)\n" +
-                //"{ a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50; } \n" +
-                //"else\n" +
-                //"{ a.MoldIndex = 0 }\n");
                 writer.WriteLine(algorithm);
             }
         }
-        public static void CreateTextFile()
+        private static void CreateTextFile()
         {
             File.WriteAllText(path + "result.txt", "");
         }
@@ -407,91 +391,9 @@ namespace WeatherApp.Methods
             WriteOutMoldingVariableToFile();
             fileMessage("File with data was succesfully created");
         }
-        public static void PrintFileMessage(string message)
+        private static void PrintFileMessage(string message)
         {
             Console.WriteLine(message);
         }
-        //public static List<WeatherDateData.WeatherDateData> GetListForFall()
-        //{
-        //    string pathName = path + "tempdata.txt";
-
-        //    List<WeatherDateData.WeatherDateData> data = new List<WeatherDateData.WeatherDateData>();
-        //    using (StreamReader reader = new StreamReader(pathName))
-        //    {
-        //        Regex checkTime = new Regex(@"(?<hour>[0-2][0-9]):([0-5][0-9]):([0-5][0-9])$");
-        //        Regex checkDate = new Regex("^(?<year>201[6-7])\\-(?<month>[0-1][0-9])-(?<day>[0-3][0-9])");
-        //        string fileContent = reader.ReadLine();
-        //        while (fileContent != null)
-        //        {
-        //            string[] arr = fileContent.Split(',');
-        //            string temp = arr[2].Replace('.', ',');
-        //            if (checkTime.Match(arr[0]).Success && checkDate.Match(arr[0]).Success)
-        //            {
-        //                int hour = int.Parse(checkTime.Match(arr[0]).Groups["hour"].Value);
-        //                int year = int.Parse(checkDate.Match(arr[0]).Groups["year"].Value);
-        //                int month = int.Parse(checkDate.Match(arr[0]).Groups["month"].Value);
-        //                int day = int.Parse(checkDate.Match(arr[0]).Groups["day"].Value);
-        //                if (hour < 24 && (year == 2016 || year == 2017) && month > 7 && month < 13 && day < 32)
-        //                {
-        //                    WeatherDateData.WeatherDateData a = new WeatherDateData.WeatherDateData()
-        //                    {
-        //                        Date = Convert.ToDateTime(arr[0]),
-        //                        Environment = arr[1].Trim(),
-        //                        Temprature = Convert.ToDouble(temp),
-        //                        Air_Humidity = Convert.ToDouble(arr[3])
-        //                    };
-        //                    data.Add(a);
-        //                }
-        //                fileContent = reader.ReadLine();
-        //            }
-        //        }
-        //    }
-        //    var newData = data
-        //        .Where(x => x.Temprature < 40 || x.Temprature > -10 || x.Air_Humidity < 101
-        //        || (x.Environment == "Inne" && (x.Environment == "Ute")))
-        //        .ToList();
-        //    return newData;
-        //}
-        //public static void CreateAverageHuminityForEachDay(this string environment, List<WeatherDateData.WeatherDateData> templist)
-        //{
-        //    List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
-
-        //    var result = templist
-        //        .Where(x => x.Environment == environment)
-        //        .GroupBy(x => x.Date.Date);
-
-        //    var result2 = result
-        //        .OrderBy(x => x.Average(x => x.Air_Humidity));
-
-        //    Console.WriteLine(environment == "Inne" ? "Inside" : "Outside");
-        //    Console.WriteLine("Date\t\tAir Humidity");
-        //    foreach (var a in result2)
-        //    {
-        //        Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.Air_Humidity), 1) + " %");
-
-
-        //    }
-
-        //}
-        //public static void CreateAverageMoldingForEachDay(this string environment, List<WeatherDateData.WeatherDateData> templist)
-        //{
-        //    List<WeatherDateData.WeatherDateData> dayList = new List<WeatherDateData.WeatherDateData>();
-
-        //    var result = templist
-        //        .Where(x => x.Environment == environment)
-        //        .GroupBy(x => x.Date.Date);
-
-        //    var result2 = result
-        //        .OrderByDescending(x => x.Average(x => x.MoldIndex));
-
-        //    Console.WriteLine(environment == "Inne" ? "Inside" : "Outside");
-        //    Console.WriteLine("Date\t\tMoldIndex");
-        //    foreach (var a in result2)
-        //    {
-        //        Console.WriteLine(a.Key.Date.ToString("yyyy-MM-dd") + "\t" + Math.Round(a.Average(x => x.MoldIndex), 1) + " %");
-        //    }
-
-        //}
-
     }
 }
