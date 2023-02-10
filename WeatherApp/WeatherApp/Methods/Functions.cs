@@ -366,8 +366,8 @@ namespace WeatherApp.Methods
             //    "{ a.MoldIndex = (Convert.ToDecimal(a.Air_Humidity * a.Temprature)) / 50; } \n" +
             //    "else\n" +
             //    "{ a.MoldIndex = 0 }\n");
-            string algorithm = "(Convert.ToDouble(temp) > 0 && Convert.ToDouble(temp) < 50 && Convert.ToDouble(arr[3]) > 80)\n" +
-                " ? (Convert.ToDecimal(Convert.ToDouble(arr[3]) * Convert.ToDouble(temp))) / 50 : 0\n";
+            string algorithm = "(Temperature > 0 && Temperature < 50 && AirHumidity > 80)\n" +
+                " ? (Temperature * AirHumidity) / 50 : 0\n";
             Console.WriteLine(algorithm);
 
             using (StreamWriter writer = new StreamWriter(pathToResult, true))

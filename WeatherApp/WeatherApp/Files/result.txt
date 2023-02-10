@@ -50,6 +50,6 @@ Winter has begun.
 2016-11-06	-1   °C
 Fall has begun.
 2016-10-04	7,3  °C
-(Convert.ToDouble(temp) > 0 && Convert.ToDouble(temp) < 50 && Convert.ToDouble(arr[3]) > 80)
- ? (Convert.ToDecimal(Convert.ToDouble(arr[3]) * Convert.ToDouble(temp))) / 50 : 0
+(Temperature > 0 && Temperature < 50 && AirHumidity > 80)
+ ? (Temperature * AirHumidity) / 50 : 0
 
